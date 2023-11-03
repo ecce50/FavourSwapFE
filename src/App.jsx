@@ -1,8 +1,8 @@
 
 import { Route, Routes } from "react-router-dom";
-import HomePage from './Pages/HomePage';
-import SignUp from "./Pages/SignUp";
-import LogIn from "./Pages/LogIn";
+import HomePage from './pizza/HomePage';
+import Signup from "./pizza/Signup";
+import Login from "./pizza/Login";
 
 
 
@@ -13,8 +13,8 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<HomePage/>} />
-        <Route path="/signup" element={<SignUp/>} />
-        <Route path="/login" element={<LogIn/>} />
+        <Route path="/signup" element={<Signup/>} />
+        <Route path="/login" element={<Login/>} />
 
       </Routes>
     </>
