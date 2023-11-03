@@ -1,8 +1,8 @@
 
 import { Route, Routes } from "react-router-dom";
-import HomePage from './pizza/HomePage';
-import Signup from "./pizza/Signup";
-import Login from "./pizza/Login";
+import HomePage from './pages/HomePage';
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 
 
 
