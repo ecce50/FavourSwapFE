@@ -1,12 +1,13 @@
-/* eslint-disable no-unused-vars */
 import { createContext, useState } from "react";
 import axios from "axios";
 
 const AuthContext = createContext();
 
-// eslint-disable-next-line react/prop-types
+
 const AuthContextWrapper = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const authenticateUser = async () => {
     const tokenInStorage = localStorage.getItem("authToken");
@@ -23,6 +24,8 @@ const AuthContextWrapper = ({ children }) => {
       //we will set the user back to null, set isLoading to false, isLogged in to false
     }
   };
+
+
   return (
     <AuthContext.Provider value={{ authenticateUser, user, setUser }}>
       {children}
