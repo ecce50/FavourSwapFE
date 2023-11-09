@@ -1,24 +1,30 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../context/Auth.context";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
+  const { authenticateUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const {data} = await axios.post("http://localhost:5005/auth/login", {
+      const { data } = await axios.post("http://localhost:5005/auth/login", {
         email,
         password,
       });
       console.log("This is the axios post result", data);
-      localStorage.setItem("authToken", data.token)
-      navigate("/"); // Change this if necessary to Profile
+      localStorage.setItem("authToken", data.token);
+      await authenticateUser();
+      if (isLoggedIn) {
+        navigate("/profile"); // Change this if necessary to Profile
+      }
     } catch (error) {
       console.error("This is the error", error);
       setErrorMessage(error.response.data.errorMessage);
