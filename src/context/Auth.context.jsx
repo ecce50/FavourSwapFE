@@ -1,33 +1,53 @@
-import { createContext, useState } from "react";
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
-
 const AuthContext = createContext();
-
 
 const AuthContextWrapper = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+ 
 
   const authenticateUser = async () => {
     const tokenInStorage = localStorage.getItem("authToken");
-    console.log("Here is the token from the local storage", tokenInStorage);
+    // console.log("here is the token from the local storage", tokenInStorage);
     if (tokenInStorage) {
-      // we make a call to the server to check if the token is valid. Delete line below when we call 'data'
-
-      const { data } = await axios.get("http://localhost:5005/auth/verify", {
-        headers: { authorization: `Bearer ${tokenInStorage}` },
-      });
-        console.log("From the context, here is the verify response ", data);
+      try {
+        //we make a call to the server and check if the token is valid
+        const { data } = await axios.get("http://localhost:5005/auth/verify", {
+          headers: { authorization: `Bearer ${tokenInStorage}` },
+        });
+        console.log("from the context, here is the verify response", data);
         setUser(data.currentUser);
+        setIsLoading(false);
+        setIsLoggedIn(true);
+
+      } catch (err) {
+        console.log("error on the authenticate user function", err);
+        setUser(null);
+        setIsLoading(false);
+        setIsLoggedIn(false);
+
+      }
     } else {
-      //we will set the user back to null, set isLoading to false, isLogged in to false
+      //we will set the user back null, set isLoading to false, set isLoggedIn to false
+      setUser(null);
+      setIsLoading(false);
+      setIsLoggedIn(false);
+
     }
   };
 
+useEffect(() => {
+  authenticateUser();
+}, []);
 
   return (
-    <AuthContext.Provider value={{ authenticateUser, user, setUser }}>
+    <AuthContext.Provider
+      value={{ authenticateUser, user, isLoading, isLoggedIn }}
+    >
       {children}
     </AuthContext.Provider>
   );
