@@ -36,7 +36,6 @@ const AuthContextWrapper = ({ children }) => {
       setUser(null);
       setIsLoading(false);
       setIsLoggedIn(false);
-
     }
   };
 
@@ -46,7 +45,7 @@ useEffect(() => {
 
   return (
     <AuthContext.Provider
-      value={{ authenticateUser, user, isLoading, isLoggedIn }}
+      value={{ authenticateUser, user, setUser, isLoading, isLoggedIn }}
     >
       {children}
     </AuthContext.Provider>

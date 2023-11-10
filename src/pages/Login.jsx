@@ -11,6 +11,8 @@ function Login() {
   //this is how we grab things from the context
   const { authenticateUser } = useContext(AuthContext);
   const nav = useNavigate();
+
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -20,9 +22,11 @@ function Login() {
       });
       console.log("here is the Login response", data);
       localStorage.setItem("authToken", data.token);
+
       //Make sure you await the authenticate User as it takes time and you cant access the private route until its finished
       await authenticateUser();
       nav("/profile");
+      
     } catch (err) {
       console.log(err);
       setErrorMessage(err.response.data.errorMessage);

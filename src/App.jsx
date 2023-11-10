@@ -17,7 +17,7 @@ function App() {
           path="/profile"
           element={
             <IsPrivate>
-              <Profile />
+              <Profile/>
             </IsPrivate>
           }
         />

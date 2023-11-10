@@ -1,12 +1,14 @@
-import {useState} from "react"; 
-import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/Auth.context";
 
 function Signup() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const { authenticateUser } = useContext(AuthContext);
+  const nav = useNavigate();
 
   const handleSignup = async (e) => {e.preventDefault()
 
@@ -16,7 +18,18 @@ function Signup() {
         password,
       } );
       console.log("This is the axios post result", res)
-      navigate("/login"); // Change to variable if it doesn't work
+
+      //If signup is successful, go on with the login
+      const loginRes = await axios.post("http://localhost:5005/auth/login", {
+        email,
+        password,
+      });
+
+      localStorage.setItem("authToken", loginRes.data.token);
+      console.log("This is the axios post result", loginRes)
+
+      await authenticateUser();
+      nav("/profile");
     } catch (error) {
       console.error("This is the error", error);
     }
