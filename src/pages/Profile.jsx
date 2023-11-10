@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { AuthContext } from "../context/Auth.context"
 import { useContext } from "react"
 
 function Profile() {
     const { authenticateUser, user } = useContext(AuthContext)
-    authenticateUser()
+    //authenticateUser()
 
  
  
